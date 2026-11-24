@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Voxa · Sentimiento Comparado</title>
+    <!-- Enlace al nuevo CSS con los colores azules de Voxa -->
+    <link rel="stylesheet" href="voxa_azul.css">
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- CABECERA AZUL CORPORATIVA VOXA -->
+    <header>
+        <h1>Voxa</h1>
+        <h2>La voz del cliente, en datos.</h2>
+        <p class="subtitulo-voxa">Plataforma de inteligencia de clientes · Sentimiento comparado en banca</p>
+    </header>
+
+    <!-- EXPLICACIÓN -->
+    <div class="summary">
+        <p>
+            Comparativa del reparto de sentimiento entre <b>CaixaBank</b>, <b>BBVA</b> y <b>Santander</b> a partir de opiniones públicas anonimizadas en redes sociales y portales de reseñas.
+        </p>
+        <p>
+            El <b>Sentimiento neto</b> se calcula restando el porcentaje de menciones negativas al porcentaje de menciones positivas (escala de -100 a +100).
+        </p>
+    </div>
+
+    <!-- FILTRO Y BOTONES -->
+    <div class="preamble">
+        <h3>Filtro por plataforma y controles</h3>
+        <p>
+            <label for="selector-red"><b>Selecciona la red social o portal:</b></label><br>
+            <select id="selector-red">
+                <option value="todas">Todas las plataformas (Global)</option>
+                <option value="Google Reviews">Google Reviews</option>
+                <option value="Trustpilot">Trustpilot</option>
+                <option value="TikTok">TikTok</option>
+                <option value="X">X (Twitter)</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Facebook">Facebook</option>
+                <option value="YouTube">YouTube</option>
+            </select>
+
+            <button type="button" id="btn-ganador">Resaltar banco ganador</button>
+            <button type="button" id="btn-comentario">Ver ejemplo de comentario real</button>
+        </p>
+    </div>
+
+    <!-- TABLA PRINCIPAL (SIN BARRA LATERAL QUE ESTORBE) -->
+    <div class="explanation">
+        <h3>Reparto del sentimiento</h3>
+        <p>Mostrando resultados de: <b id="etiqueta-fuente">Todas las plataformas (Global)</b></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Banco</th>
+                    <th>Menciones</th>
+                    <th>Negativo</th>
+                    <th>Neutral</th>
+                    <th>Positivo</th>
+                    <th>Sentimiento neto</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-tabla">
+                <tr>
+                    <td colspan="6">Cargando datos...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TARJETA DESPLEGABLE DE COMENTARIO REAL (OCULTA POR DEFECTO) -->
+    <div class="participation" id="caja-comentario" hidden>
+        <h3>Ejemplo de comentario real anonimizado</h3>
+        <p id="meta-comentario"><b>Banco / Red:</b> —</p>
+        <p id="texto-comentario"><i>«—»</i></p>
+    </div>
+
+    <!-- PIE DE PÁGINA SEPARADO -->
+    <footer>
+        Voxa Analytics · Inteligencia de Clientes B2B · Datos anonimizados bajo RGPD
+    </footer>
+
+</div>
+
+<!-- LECTURA DEL ARCHIVO DE DATOS EXTERNO -->
+<script src="datos_voxa.js"></script>
+
+<script>
+    let redActual = 'todas';
+    let ganadorResaltado = false;
+
+    function pintarTabla() {
+        const filas = datosGlobales[redActual].filas;
+        const tbody = document.getElementById('cuerpo-tabla');
+
+        // Buscar la mejor puntuación neta en la red seleccionada
+        let mejorNota = -999;
+        filas.forEach(function(item) {
+            if (item.neto > mejorNota) {
+                mejorNota = item.neto;
+            }
+        });
+
+        let html = '';
+        filas.forEach(function(item) {
+            const esGanador = (item.neto === mejorNota);
+            const claseFila = (ganadorResaltado && esGanador) ? ' class="fila-ganadora"' : '';
+            const etiquetaLider = (ganadorResaltado && esGanador) ? ' ★ LÍDER' : '';
+
+            html += '<tr' + claseFila + '>' +
+                '<td><b>' + item.banco + etiquetaLider + '</b></td>' +
+                '<td>' + item.total + '</td>' +
+                '<td>' + item.negativo + '</td>' +
+                '<td>' + item.neutral + '</td>' +
+                '<td>' + item.positivo + '</td>' +
+                '<td><b>' + (item.neto > 0 ? '+' + item.neto : item.neto) + '</b></td>' +
+            '</tr>';
+        });
+
+        tbody.innerHTML = html;
+
+        // Actualizar el ejemplo de comentario real de esa red
+        const ejemplo = datosGlobales[redActual].ejemplo_comentario;
+        document.getElementById('meta-comentario').innerHTML = 
+            '<b>Banco:</b> ' + ejemplo.banco + ' | <b>Fuente:</b> ' + ejemplo.red + ' | <b>Sentimiento:</b> ' + ejemplo.sentimiento;
+        document.getElementById('texto-comentario').innerHTML = '<i>' + ejemplo.texto + '</i>';
+    }
+
+    // Cargar tabla inicial
+    pintarTabla();
+
+    // Evento al cambiar de red social
+    document.getElementById('selector-red').addEventListener('change', function(e) {
+        redActual = e.target.value;
+        document.getElementById('etiqueta-fuente').textContent = e.target.options[e.target.selectedIndex].text;
+        pintarTabla();
+    });
+
+    // Botón 1: Resaltar ganador
+    document.getElementById('btn-ganador').addEventListener('click', function() {
+        ganadorResaltado = !ganadorResaltado;
+        this.textContent = ganadorResaltado ? 'Quitar resaltado de ganador' : 'Resaltar banco ganador';
+        pintarTabla();
+    });
+
+    // Botón 2: Ver/Ocultar ejemplo de comentario real
+    document.getElementById('btn-comentario').addEventListener('click', function() {
+        const caja = document.getElementById('caja-comentario');
+        caja.hidden = !caja.hidden;
+        this.textContent = caja.hidden ? 'Ver ejemplo de comentario real' : 'Ocultar ejemplo de comentario';
+    });
+</script>
+
+</body>
+</html>

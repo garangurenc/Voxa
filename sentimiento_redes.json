@@ -1,0 +1,106 @@
+{
+  "todas": {
+    "filas": [
+      { "banco": "CaixaBank", "total": 1840, "negativo": "44 %", "neutral": "30 %", "positivo": "26 %", "neto": -18 },
+      { "banco": "BBVA", "total": 1620, "negativo": "51 %", "neutral": "27 %", "positivo": "22 %", "neto": -29 },
+      { "banco": "Santander", "total": 1360, "negativo": "54 %", "neutral": "26 %", "positivo": "20 %", "neto": -34 }
+    ],
+    "ejemplo_comentario": {
+      "banco": "CaixaBank",
+      "red": "App / Global",
+      "sentimiento": "Positivo",
+      "texto": "«La aplicación móvil funciona muy fluida y me gusta que te avise de posibles estafas nada más entrar.»"
+    }
+  },
+  "Google Reviews": {
+    "filas": [
+      { "banco": "CaixaBank", "total": 520, "negativo": "46 %", "neutral": "20 %", "positivo": "34 %", "neto": -12 },
+      { "banco": "BBVA", "total": 490, "negativo": "52 %", "neutral": "20 %", "positivo": "28 %", "neto": -24 },
+      { "banco": "Santander", "total": 410, "negativo": "55 %", "neutral": "19 %", "positivo": "26 %", "neto": -29 }
+    ],
+    "ejemplo_comentario": {
+      "banco": "BBVA",
+      "red": "Google Reviews (1★)",
+      "sentimiento": "Negativo",
+      "texto": "«Imposible que te atiendan en ventanilla sin pedir cita previa con una semana de antelación, aunque sea una gestión de dos minutos.»"
+    }
+  },
+  "Trustpilot": {
+    "filas": [
+      { "banco": "CaixaBank", "total": 310, "negativo": "74 %", "neutral": "10 %", "positivo": "16 %", "neto": -58 },
+      { "banco": "BBVA", "total": 380, "negativo": "79 %", "neutral": "8 %", "positivo": "13 %", "neto": -66 },
+      { "banco": "Santander", "total": 290, "negativo": "84 %", "neutral": "6 %", "positivo": "10 %", "neto": -74 }
+    ],
+    "ejemplo_comentario": {
+      "banco": "Santander",
+      "red": "Trustpilot (1★)",
+      "sentimiento": "Negativo",
+      "texto": "«Llevo tres semanas reclamando una comisión de mantenimiento que no me corresponde y nadie responde a las incidencias.»"
+    }
+  },
+  "TikTok": {
+    "filas": [
+      { "banco": "CaixaBank", "total": 540, "negativo": "36 %", "neutral": "47 %", "positivo": "17 %", "neto": -19 },
+      { "banco": "BBVA", "total": 410, "negativo": "34 %", "neutral": "47 %", "positivo": "19 %", "neto": -15 },
+      { "banco": "Santander", "total": 330, "negativo": "38 %", "neutral": "45 %", "positivo": "17 %", "neto": -21 }
+    ],
+    "ejemplo_comentario": {
+      "banco": "CaixaBank",
+      "red": "TikTok",
+      "sentimiento": "Negativo",
+      "texto": "«Me han cobrado 60 euros de la cuota Día a Día este trimestre sin avisar, vengo del vídeo del abogado para reclamarlo.»"
+    }
+  },
+  "X": {
+    "filas": [
+      { "banco": "CaixaBank", "total": 260, "negativo": "58 %", "neutral": "29 %", "positivo": "13 %", "neto": -45 },
+      { "banco": "BBVA", "total": 180, "negativo": "52 %", "neutral": "34 %", "positivo": "14 %", "neto": -38 },
+      { "banco": "Santander", "total": 170, "negativo": "54 %", "neutral": "33 %", "positivo": "13 %", "neto": -41 }
+    ],
+    "ejemplo_comentario": {
+      "banco": "CaixaBank",
+      "red": "X (Twitter)",
+      "sentimiento": "Negativo",
+      "texto": "«¿En serio me cobráis comisiones por descargar un certificado de titularidad de cuenta en PDF desde la propia web?»"
+    }
+  },
+  "Instagram": {
+    "filas": [
+      { "banco": "CaixaBank", "total": 110, "negativo": "26 %", "neutral": "44 %", "positivo": "30 %", "neto": 4 },
+      { "banco": "BBVA", "total": 85, "negativo": "33 %", "neutral": "42 %", "positivo": "25 %", "neto": -8 },
+      { "banco": "Santander", "total": 80, "negativo": "36 %", "neutral": "40 %", "positivo": "24 %", "neto": -12 }
+    ],
+    "ejemplo_comentario": {
+      "banco": "CaixaBank",
+      "red": "Instagram",
+      "sentimiento": "Positivo",
+      "texto": "«Muy buena iniciativa la de los talleres financieros para jóvenes, súper claros y útiles.»"
+    }
+  },
+  "Facebook": {
+    "filas": [
+      { "banco": "CaixaBank", "total": 60, "negativo": "42 %", "neutral": "35 %", "positivo": "23 %", "neto": -19 },
+      { "banco": "BBVA", "total": 45, "negativo": "49 %", "neutral": "31 %", "positivo": "20 %", "neto": -29 },
+      { "banco": "Santander", "total": 50, "negativo": "50 %", "neutral": "32 %", "positivo": "18 %", "neto": -32 }
+    ],
+    "ejemplo_comentario": {
+      "banco": "BBVA",
+      "red": "Facebook",
+      "sentimiento": "Negativo",
+      "texto": "«Han cerrado la oficina de mi barrio y ahora obligan a las personas mayores a hacerlo todo por el cajero.»"
+    }
+  },
+  "YouTube": {
+    "filas": [
+      { "banco": "CaixaBank", "total": 40, "negativo": "30 %", "neutral": "45 %", "positivo": "25 %", "neto": -5 },
+      { "banco": "BBVA", "total": 30, "negativo": "33 %", "neutral": "47 %", "positivo": "20 %", "neto": -13 },
+      { "banco": "Santander", "total": 30, "negativo": "37 %", "neutral": "43 %", "positivo": "20 %", "neto": -17 }
+    ],
+    "ejemplo_comentario": {
+      "banco": "CaixaBank",
+      "red": "YouTube",
+      "sentimiento": "Neutral",
+      "texto": "«Buen tutorial explicando paso a paso cómo configurar Bizum y las transferencias inmediatas desde el móvil.»"
+    }
+  }
+}
