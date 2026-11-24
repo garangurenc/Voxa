@@ -62,11 +62,12 @@
                     <th>Neutral</th>
                     <th>Positivo</th>
                     <th>Sentimiento neto</th>
+                    <th>Valoración</th>
                 </tr>
             </thead>
             <tbody id="cuerpo-tabla">
                 <tr>
-                    <td colspan="6">Cargando datos...</td>
+                    <td colspan="7">Cargando datos...</td>
                 </tr>
             </tbody>
         </table>
@@ -93,6 +94,17 @@
     let redActual = 'todas';
     let ganadorResaltado = false;
 
+    // NUEVO: semáforo. Recibe el sentimiento neto y devuelve un texto según su valor.
+    function clasificar(neto) {
+        if (neto > 0) {
+            return '🟢 Bueno';
+        } else if (neto >= -20) {
+            return '🟡 Regular';
+        } else {
+            return '🔴 Crítico';
+        }
+    }
+
     function pintarTabla() {
         const filas = datosGlobales[redActual].filas;
         const tbody = document.getElementById('cuerpo-tabla');
@@ -118,7 +130,11 @@
                 '<td>' + item.neutral + '</td>' +
                 '<td>' + item.positivo + '</td>' +
                 '<td><b>' + (item.neto > 0 ? '+' + item.neto : item.neto) + '</b></td>' +
+                '<td>' + clasificar(item.neto) + '</td>' +
             '</tr>';
+
+            // NUEVO: mostramos cada banco en la consola del navegador (F12 → Console)
+            console.log(item.banco + ': ' + item.neto + ' → ' + clasificar(item.neto));
         });
 
         tbody.innerHTML = html;
