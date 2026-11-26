@@ -92,7 +92,6 @@
     let redActual = 'todas';
     let ganadorResaltado = false;
 
-    // ===== FUNCIÓN KEVIN (función 1) =====
     // Semáforo. Recibe el sentimiento neto y devuelve un texto según su valor.
     function clasificar(neto) {
         if (neto > 0) {
@@ -104,7 +103,6 @@
         }
     }
 
-    // ===== FUNCIÓN NATALIA (función 2) =====
     // Suma las menciones de todos los bancos con forEach
     function sumarMenciones(filas) {
         let suma = 0;
@@ -114,7 +112,6 @@
         return suma;
     }
 
-    // ===== FUNCIÓN GONZALO (función 3) =====
     // Calcula qué porcentaje es una parte respecto al total
     function calcularPorcentaje(parte, total) {
         return Math.round(parte / total * 100);
@@ -132,7 +129,7 @@
             }
         });
 
-        // Usamos la FUNCIÓN NATALIA para saber cuántas menciones hay en total
+        // Usamos sumarMenciones para saber cuántas menciones hay en total
         const totalMenciones = sumarMenciones(filas);
 
         let html = '';
