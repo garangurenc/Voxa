@@ -17,19 +17,15 @@
         <p class="subtitulo-voxa">Plataforma de inteligencia de clientes · Sentimiento comparado en banca</p>
     </header>
 
-    <!-- EXPLICACIÓN -->
-    <div class="summary">
-        <p>
-            Comparativa del reparto de sentimiento entre <b>CaixaBank</b>, <b>BBVA</b> y <b>Santander</b> a partir de opiniones públicas anonimizadas en redes sociales y portales de reseñas.
-        </p>
-        <p>
-            El <b>Sentimiento neto</b> se calcula restando el porcentaje de menciones negativas al porcentaje de menciones positivas (escala de -100 a +100).
-        </p>
-    </div>
+    <!-- MENÚ PARA MOVERSE ENTRE LAS PÁGINAS -->
+    <p>
+        <a class="boton" href="index.html">🏠 Inicio</a>
+        <a class="boton" href="categorias.html">Ver por categorías →</a>
+    </p>
 
-    <!-- FILTRO Y BOTONES -->
+    <!-- FILTRO POR PLATAFORMA -->
     <div class="preamble">
-        <h3>Filtro por plataforma y controles</h3>
+        <h3>Filtro por plataforma</h3>
         <p>
             <label for="selector-red"><b>Selecciona la red social o portal:</b></label><br>
             <select id="selector-red">
@@ -42,8 +38,6 @@
                 <option value="Facebook">Facebook</option>
                 <option value="YouTube">YouTube</option>
             </select>
-
-            <button type="button" id="btn-ganador">Resaltar banco ganador</button>
         </p>
     </div>
 
@@ -57,6 +51,7 @@
                 <tr>
                     <th>Banco</th>
                     <th>Menciones</th>
+                    <th>% del total</th>
                     <th>Negativo</th>
                     <th>Neutral</th>
                     <th>Positivo</th>
@@ -66,10 +61,12 @@
             </thead>
             <tbody id="cuerpo-tabla">
                 <tr>
-                    <td colspan="7">Cargando datos...</td>
+                    <td colspan="8">Cargando datos...</td>
                 </tr>
             </tbody>
         </table>
+
+        <p id="total-menciones"></p>
     </div>
 
     <!-- SECCIÓN DE COMENTARIOS ANALIZADOS (VISIBLE DEBAJO DE LA TABLA AL DESLIZAR) -->
@@ -91,9 +88,8 @@
 
 <script>
     let redActual = 'todas';
-    let ganadorResaltado = false;
 
-    // NUEVO: semáforo. Recibe el sentimiento neto y devuelve un texto según su valor.
+    // Semáforo. Recibe el sentimiento neto y devuelve un texto según su valor.
     function clasificar(neto) {
         if (neto > 0) {
             return '🟢 Bueno';
@@ -104,27 +100,31 @@
         }
     }
 
+    // Suma las menciones de todos los bancos con forEach
+    function sumarMenciones(filas) {
+        let suma = 0;
+        filas.forEach(function(item) {
+            suma = suma + item.total;
+        });
+        return suma;
+    }
+
+    // Calcula qué porcentaje es una parte respecto al total
+    function calcularPorcentaje(parte, total) {
+        return Math.round(parte / total * 100);
+    }
+
     function pintarTabla() {
         const filas = datosGlobales[redActual].filas;
         const tbody = document.getElementById('cuerpo-tabla');
-
-        // Buscar la mejor puntuación neta en la red seleccionada
-        let mejorNota = -999;
-        filas.forEach(function(item) {
-            if (item.neto > mejorNota) {
-                mejorNota = item.neto;
-            }
-        });
+        const totalMenciones = sumarMenciones(filas);
 
         let html = '';
         filas.forEach(function(item) {
-            const esGanador = (item.neto === mejorNota);
-            const claseFila = (ganadorResaltado && esGanador) ? ' class="fila-ganadora"' : '';
-            const etiquetaLider = (ganadorResaltado && esGanador) ? ' ★ LÍDER' : '';
-
-            html += '<tr' + claseFila + '>' +
-                '<td><b>' + item.banco + etiquetaLider + '</b></td>' +
+            html += '<tr>' +
+                '<td><b>' + item.banco + '</b></td>' +
                 '<td>' + item.total + '</td>' +
+                '<td>' + calcularPorcentaje(item.total, totalMenciones) + ' %</td>' +
                 '<td>' + item.negativo + '</td>' +
                 '<td>' + item.neutral + '</td>' +
                 '<td>' + item.positivo + '</td>' +
@@ -132,17 +132,22 @@
                 '<td>' + clasificar(item.neto) + '</td>' +
             '</tr>';
 
-            // NUEVO: mostramos cada banco en la consola del navegador (F12 → Console)
+            // Mostramos cada banco en la consola del navegador (F12 → Console)
             console.log(item.banco + ': ' + item.neto + ' → ' + clasificar(item.neto));
         });
 
         tbody.innerHTML = html;
+        document.getElementById('total-menciones').innerHTML = '<b>Total de menciones:</b> ' + totalMenciones;
 
         // Actualizar los comentarios analizados visibles debajo de la tabla
         pintarComentarios();
     }
 
     function obtenerComentarios(red) {
+        if (red === 'todas' && datosGlobales.todas && Array.isArray(datosGlobales.todas.comentarios)) {
+            return datosGlobales.todas.comentarios;
+        }
+
         const claves = (red === 'todas') ? Object.keys(datosGlobales) : [red];
         const resultado = [];
 
@@ -212,13 +217,6 @@
     document.getElementById('selector-red').addEventListener('change', function(e) {
         redActual = e.target.value;
         document.getElementById('etiqueta-fuente').textContent = e.target.options[e.target.selectedIndex].text;
-        pintarTabla();
-    });
-
-    // Botón: Resaltar ganador
-    document.getElementById('btn-ganador').addEventListener('click', function() {
-        ganadorResaltado = !ganadorResaltado;
-        this.textContent = ganadorResaltado ? 'Quitar resaltado de ganador' : 'Resaltar banco ganador';
         pintarTabla();
     });
 </script>
