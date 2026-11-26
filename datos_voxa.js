@@ -1,107 +1,497 @@
-// Datos del panel Voxa (copiados de sentimiento_redes.json)
+// Datos del panel Voxa, calculados a partir de sentimiento_real.json
+// (7255 opiniones reales con sentimiento)
+
 const datosGlobales = {
   "todas": {
     "filas": [
-      { "banco": "CaixaBank", "total": 1840, "negativo": "44 %", "neutral": "30 %", "positivo": "26 %", "neto": -18 },
-      { "banco": "BBVA", "total": 1620, "negativo": "51 %", "neutral": "27 %", "positivo": "22 %", "neto": -29 },
-      { "banco": "Santander", "total": 1360, "negativo": "54 %", "neutral": "26 %", "positivo": "20 %", "neto": -34 }
+      {
+        "banco": "CaixaBank",
+        "total": 4351,
+        "negativo": "34 %",
+        "neutral": "39 %",
+        "positivo": "27 %",
+        "neto": -7
+      },
+      {
+        "banco": "BBVA",
+        "total": 1673,
+        "negativo": "53 %",
+        "neutral": "26 %",
+        "positivo": "20 %",
+        "neto": -33
+      },
+      {
+        "banco": "Santander",
+        "total": 1231,
+        "negativo": "45 %",
+        "neutral": "33 %",
+        "positivo": "22 %",
+        "neto": -23
+      }
     ],
-    "ejemplo_comentario": {
-      "banco": "CaixaBank",
-      "red": "App / Global",
-      "sentimiento": "Positivo",
-      "texto": "«La aplicación móvil funciona muy fluida y me gusta que te avise de posibles estafas nada más entrar.»"
-    }
+    "comentarios": [
+      {
+        "banco": "CaixaBank",
+        "red": "Google Reviews",
+        "sentimiento": "Positivo",
+        "texto": "«Recomiendo este Monte de Piedad. Son muy profesionales y amables. Llevo años necesitando este servicio y siempre he sido muy buen atendida»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "Google Reviews",
+        "sentimiento": "Negativo",
+        "texto": "«Mucha gente esperando solo 1 atendiendo, después de una hora decidí irme, quería abrir una cuenta, pero viendo lo visto mejor me voy.»"
+      },
+      {
+        "banco": "Santander",
+        "red": "Google Reviews",
+        "sentimiento": "Negativo",
+        "texto": "«Llegué 45 minutos antes de la hora oficial de cierre y el local ya estaba completamente cerrado y sin personal. Deberían actualizar sus horarios o respetarlos para no hacer perder el tiempo a la gente»"
+      },
+      {
+        "banco": "CaixaBank",
+        "red": "Trustpilot",
+        "sentimiento": "Positivo",
+        "texto": "«Es una buena app puedes ahcer muchas cosas y funciona muy bien...»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "Trustpilot",
+        "sentimiento": "Negativo",
+        "texto": "«nefasto. La seguridad desmedida, lo dificil que es el uso... absurdo. Metodos de comprobacion que se necesita un maldito master para entenderlo»"
+      },
+      {
+        "banco": "Santander",
+        "red": "Trustpilot",
+        "sentimiento": "Negativo",
+        "texto": "«La espera para atención en ventanillas ahora oficinas es interminable y hay muchas oficinas que están allí pero vacías, muchos empleados se dedican a revisar sus móviles, es un gran fastidio perder tanto tiempo.»"
+      },
+      {
+        "banco": "CaixaBank",
+        "red": "TikTok",
+        "sentimiento": "Neutral",
+        "texto": "«no cojo ni llamadas ni mensajes de nadie pa robar ya tenemos con hacienda»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "TikTok",
+        "sentimiento": "Positivo",
+        "texto": "«Yo pude abrirlo con el pasaporte y no me pidieron comprar el seguro»"
+      },
+      {
+        "banco": "Santander",
+        "red": "TikTok",
+        "sentimiento": "Negativo",
+        "texto": "«me parece súper mal que me cobráis 20 euros todos los meses de comisiones»"
+      },
+      {
+        "banco": "CaixaBank",
+        "red": "X",
+        "sentimiento": "Negativo",
+        "texto": "«Te aseguro que otros bancos no cobran nada por este certificado de titularidad.»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "X",
+        "sentimiento": "Negativo",
+        "texto": "«Btc y eth...las comisiones que cobran y contrato leonino que te hacen firmar, es de denunciarles»"
+      },
+      {
+        "banco": "Santander",
+        "red": "X",
+        "sentimiento": "Negativo",
+        "texto": "«Dejar de mentir y que os suban los impuestos y me gustaría saber que hay detrás. Bajar tipo de interés para la compra de la primera vivienda. No estais arruinando. La banca y los fondos buitres nos arrugas.»"
+      },
+      {
+        "banco": "CaixaBank",
+        "red": "Instagram",
+        "sentimiento": "Positivo",
+        "texto": "«Siempre al efectivo. Cobras y lo sacas. Es nuestro dinero y no tienen que controlar en qué lo gastas.»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "Instagram",
+        "sentimiento": "Negativo",
+        "texto": "«Desde el minuto 1 no me gusto esa actualización ni las fuentes y de paso funciona más lenta 🤥»"
+      },
+      {
+        "banco": "Santander",
+        "red": "Instagram",
+        "sentimiento": "Negativo",
+        "texto": "«Ojo y el renting de 36 meses en letra pequeña 😂😂😂😂»"
+      },
+      {
+        "banco": "CaixaBank",
+        "red": "Facebook",
+        "sentimiento": "Positivo",
+        "texto": "«gracias caixa bamk um buem servicio i mui buena aktitud saludos»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "Facebook",
+        "sentimiento": "Negativo",
+        "texto": "«Deseando de cambiar tooodas mis cosas del bbva e irme a otro banco»"
+      },
+      {
+        "banco": "Santander",
+        "red": "Facebook",
+        "sentimiento": "Negativo",
+        "texto": "«También igual vosotros debéis mirar a quién dais créditos no crees banco Santander? Al cliente o quien suplanta su identidad?»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "YouTube",
+        "sentimiento": "Negativo",
+        "texto": "«Falso, bbva cobra 160 euros anuales de comisiones por mantenimiento de cuenta. Estos dos bancos son el peor sitio donde puedes tener tu dinero.»"
+      },
+      {
+        "banco": "Santander",
+        "red": "YouTube",
+        "sentimiento": "Neutral",
+        "texto": "«Todo normal, cuando trabajes te lo harán sin problema. Aún siendo ciudadano europeo no se la abrieron a mi pareja hasta que no tuvo nómina.»"
+      }
+    ]
   },
   "Google Reviews": {
     "filas": [
-      { "banco": "CaixaBank", "total": 520, "negativo": "46 %", "neutral": "20 %", "positivo": "34 %", "neto": -12 },
-      { "banco": "BBVA", "total": 490, "negativo": "52 %", "neutral": "20 %", "positivo": "28 %", "neto": -24 },
-      { "banco": "Santander", "total": 410, "negativo": "55 %", "neutral": "19 %", "positivo": "26 %", "neto": -29 }
+      {
+        "banco": "CaixaBank",
+        "total": 815,
+        "negativo": "34 %",
+        "neutral": "1 %",
+        "positivo": "65 %",
+        "neto": 30
+      },
+      {
+        "banco": "BBVA",
+        "total": 653,
+        "negativo": "73 %",
+        "neutral": "1 %",
+        "positivo": "26 %",
+        "neto": -47
+      },
+      {
+        "banco": "Santander",
+        "total": 188,
+        "negativo": "41 %",
+        "neutral": "2 %",
+        "positivo": "57 %",
+        "neto": 16
+      }
     ],
-    "ejemplo_comentario": {
-      "banco": "BBVA",
-      "red": "Google Reviews (1★)",
-      "sentimiento": "Negativo",
-      "texto": "«Imposible que te atiendan en ventanilla sin pedir cita previa con una semana de antelación, aunque sea una gestión de dos minutos.»"
-    }
+    "comentarios": [
+      {
+        "banco": "CaixaBank",
+        "red": "Google Reviews",
+        "sentimiento": "Positivo",
+        "texto": "«Recomiendo este Monte de Piedad. Son muy profesionales y amables. Llevo años necesitando este servicio y siempre he sido muy buen atendida»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "Google Reviews",
+        "sentimiento": "Negativo",
+        "texto": "«Mucha gente esperando solo 1 atendiendo, después de una hora decidí irme, quería abrir una cuenta, pero viendo lo visto mejor me voy.»"
+      },
+      {
+        "banco": "Santander",
+        "red": "Google Reviews",
+        "sentimiento": "Negativo",
+        "texto": "«Llegué 45 minutos antes de la hora oficial de cierre y el local ya estaba completamente cerrado y sin personal. Deberían actualizar sus horarios o respetarlos para no hacer perder el tiempo a la gente»"
+      }
+    ]
   },
   "Trustpilot": {
     "filas": [
-      { "banco": "CaixaBank", "total": 310, "negativo": "74 %", "neutral": "10 %", "positivo": "16 %", "neto": -58 },
-      { "banco": "BBVA", "total": 380, "negativo": "79 %", "neutral": "8 %", "positivo": "13 %", "neto": -66 },
-      { "banco": "Santander", "total": 290, "negativo": "84 %", "neutral": "6 %", "positivo": "10 %", "neto": -74 }
+      {
+        "banco": "CaixaBank",
+        "total": 860,
+        "negativo": "49 %",
+        "neutral": "6 %",
+        "positivo": "45 %",
+        "neto": -5
+      },
+      {
+        "banco": "BBVA",
+        "total": 412,
+        "negativo": "71 %",
+        "neutral": "2 %",
+        "positivo": "27 %",
+        "neto": -44
+      },
+      {
+        "banco": "Santander",
+        "total": 337,
+        "negativo": "77 %",
+        "neutral": "3 %",
+        "positivo": "20 %",
+        "neto": -57
+      }
     ],
-    "ejemplo_comentario": {
-      "banco": "Santander",
-      "red": "Trustpilot (1★)",
-      "sentimiento": "Negativo",
-      "texto": "«Llevo tres semanas reclamando una comisión de mantenimiento que no me corresponde y nadie responde a las incidencias.»"
-    }
+    "comentarios": [
+      {
+        "banco": "CaixaBank",
+        "red": "Trustpilot",
+        "sentimiento": "Positivo",
+        "texto": "«Es una buena app puedes ahcer muchas cosas y funciona muy bien...»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "Trustpilot",
+        "sentimiento": "Negativo",
+        "texto": "«nefasto. La seguridad desmedida, lo dificil que es el uso... absurdo. Metodos de comprobacion que se necesita un maldito master para entenderlo»"
+      },
+      {
+        "banco": "Santander",
+        "red": "Trustpilot",
+        "sentimiento": "Negativo",
+        "texto": "«La espera para atención en ventanillas ahora oficinas es interminable y hay muchas oficinas que están allí pero vacías, muchos empleados se dedican a revisar sus móviles, es un gran fastidio perder tanto tiempo.»"
+      }
+    ]
   },
   "TikTok": {
     "filas": [
-      { "banco": "CaixaBank", "total": 540, "negativo": "36 %", "neutral": "47 %", "positivo": "17 %", "neto": -19 },
-      { "banco": "BBVA", "total": 410, "negativo": "34 %", "neutral": "47 %", "positivo": "19 %", "neto": -15 },
-      { "banco": "Santander", "total": 330, "negativo": "38 %", "neutral": "45 %", "positivo": "17 %", "neto": -21 }
+      {
+        "banco": "CaixaBank",
+        "total": 1928,
+        "negativo": "21 %",
+        "neutral": "69 %",
+        "positivo": "10 %",
+        "neto": -11
+      },
+      {
+        "banco": "BBVA",
+        "total": 450,
+        "negativo": "20 %",
+        "neutral": "71 %",
+        "positivo": "9 %",
+        "neto": -10
+      },
+      {
+        "banco": "Santander",
+        "total": 432,
+        "negativo": "25 %",
+        "neutral": "64 %",
+        "positivo": "11 %",
+        "neto": -13
+      }
     ],
-    "ejemplo_comentario": {
-      "banco": "CaixaBank",
-      "red": "TikTok",
-      "sentimiento": "Negativo",
-      "texto": "«Me han cobrado 60 euros de la cuota Día a Día este trimestre sin avisar, vengo del vídeo del abogado para reclamarlo.»"
-    }
+    "comentarios": [
+      {
+        "banco": "CaixaBank",
+        "red": "TikTok",
+        "sentimiento": "Neutral",
+        "texto": "«no cojo ni llamadas ni mensajes de nadie pa robar ya tenemos con hacienda»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "TikTok",
+        "sentimiento": "Positivo",
+        "texto": "«Yo pude abrirlo con el pasaporte y no me pidieron comprar el seguro»"
+      },
+      {
+        "banco": "Santander",
+        "red": "TikTok",
+        "sentimiento": "Negativo",
+        "texto": "«me parece súper mal que me cobráis 20 euros todos los meses de comisiones»"
+      }
+    ]
   },
   "X": {
     "filas": [
-      { "banco": "CaixaBank", "total": 260, "negativo": "58 %", "neutral": "29 %", "positivo": "13 %", "neto": -45 },
-      { "banco": "BBVA", "total": 180, "negativo": "52 %", "neutral": "34 %", "positivo": "14 %", "neto": -38 },
-      { "banco": "Santander", "total": 170, "negativo": "54 %", "neutral": "33 %", "positivo": "13 %", "neto": -41 }
+      {
+        "banco": "CaixaBank",
+        "total": 588,
+        "negativo": "58 %",
+        "neutral": "35 %",
+        "positivo": "7 %",
+        "neto": -51
+      },
+      {
+        "banco": "BBVA",
+        "total": 36,
+        "negativo": "6 %",
+        "neutral": "94 %",
+        "positivo": "0 %",
+        "neto": -6
+      },
+      {
+        "banco": "Santander",
+        "total": 22,
+        "negativo": "73 %",
+        "neutral": "27 %",
+        "positivo": "0 %",
+        "neto": -73
+      }
     ],
-    "ejemplo_comentario": {
-      "banco": "CaixaBank",
-      "red": "X (Twitter)",
-      "sentimiento": "Negativo",
-      "texto": "«¿En serio me cobráis comisiones por descargar un certificado de titularidad de cuenta en PDF desde la propia web?»"
-    }
+    "comentarios": [
+      {
+        "banco": "CaixaBank",
+        "red": "X",
+        "sentimiento": "Negativo",
+        "texto": "«Te aseguro que otros bancos no cobran nada por este certificado de titularidad.»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "X",
+        "sentimiento": "Negativo",
+        "texto": "«Btc y eth...las comisiones que cobran y contrato leonino que te hacen firmar, es de denunciarles»"
+      },
+      {
+        "banco": "Santander",
+        "red": "X",
+        "sentimiento": "Negativo",
+        "texto": "«Dejar de mentir y que os suban los impuestos y me gustaría saber que hay detrás. Bajar tipo de interés para la compra de la primera vivienda. No estais arruinando. La banca y los fondos buitres nos arrugas.»"
+      }
+    ]
   },
   "Instagram": {
     "filas": [
-      { "banco": "CaixaBank", "total": 110, "negativo": "26 %", "neutral": "44 %", "positivo": "30 %", "neto": 4 },
-      { "banco": "BBVA", "total": 85, "negativo": "33 %", "neutral": "42 %", "positivo": "25 %", "neto": -8 },
-      { "banco": "Santander", "total": 80, "negativo": "36 %", "neutral": "40 %", "positivo": "24 %", "neto": -12 }
+      {
+        "banco": "CaixaBank",
+        "total": 58,
+        "negativo": "31 %",
+        "neutral": "59 %",
+        "positivo": "10 %",
+        "neto": -21
+      },
+      {
+        "banco": "BBVA",
+        "total": 29,
+        "negativo": "48 %",
+        "neutral": "41 %",
+        "positivo": "10 %",
+        "neto": -38
+      },
+      {
+        "banco": "Santander",
+        "total": 14,
+        "negativo": "50 %",
+        "neutral": "43 %",
+        "positivo": "7 %",
+        "neto": -43
+      }
     ],
-    "ejemplo_comentario": {
-      "banco": "CaixaBank",
-      "red": "Instagram",
-      "sentimiento": "Positivo",
-      "texto": "«Muy buena iniciativa la de los talleres financieros para jóvenes, súper claros y útiles.»"
-    }
+    "comentarios": [
+      {
+        "banco": "CaixaBank",
+        "red": "Instagram",
+        "sentimiento": "Positivo",
+        "texto": "«Siempre al efectivo. Cobras y lo sacas. Es nuestro dinero y no tienen que controlar en qué lo gastas.»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "Instagram",
+        "sentimiento": "Negativo",
+        "texto": "«Desde el minuto 1 no me gusto esa actualización ni las fuentes y de paso funciona más lenta 🤥»"
+      },
+      {
+        "banco": "Santander",
+        "red": "Instagram",
+        "sentimiento": "Negativo",
+        "texto": "«Ojo y el renting de 36 meses en letra pequeña 😂😂😂😂»"
+      }
+    ]
   },
   "Facebook": {
     "filas": [
-      { "banco": "CaixaBank", "total": 60, "negativo": "42 %", "neutral": "35 %", "positivo": "23 %", "neto": -19 },
-      { "banco": "BBVA", "total": 45, "negativo": "49 %", "neutral": "31 %", "positivo": "20 %", "neto": -29 },
-      { "banco": "Santander", "total": 50, "negativo": "50 %", "neutral": "32 %", "positivo": "18 %", "neto": -32 }
+      {
+        "banco": "CaixaBank",
+        "total": 98,
+        "negativo": "22 %",
+        "neutral": "50 %",
+        "positivo": "28 %",
+        "neto": 5
+      },
+      {
+        "banco": "BBVA",
+        "total": 24,
+        "negativo": "54 %",
+        "neutral": "25 %",
+        "positivo": "21 %",
+        "neto": -33
+      },
+      {
+        "banco": "Santander",
+        "total": 155,
+        "negativo": "39 %",
+        "neutral": "34 %",
+        "positivo": "27 %",
+        "neto": -12
+      }
     ],
-    "ejemplo_comentario": {
-      "banco": "BBVA",
-      "red": "Facebook",
-      "sentimiento": "Negativo",
-      "texto": "«Han cerrado la oficina de mi barrio y ahora obligan a las personas mayores a hacerlo todo por el cajero.»"
-    }
+    "comentarios": [
+      {
+        "banco": "CaixaBank",
+        "red": "Facebook",
+        "sentimiento": "Positivo",
+        "texto": "«gracias caixa bamk um buem servicio i mui buena aktitud saludos»"
+      },
+      {
+        "banco": "BBVA",
+        "red": "Facebook",
+        "sentimiento": "Negativo",
+        "texto": "«Deseando de cambiar tooodas mis cosas del bbva e irme a otro banco»"
+      },
+      {
+        "banco": "Santander",
+        "red": "Facebook",
+        "sentimiento": "Negativo",
+        "texto": "«También igual vosotros debéis mirar a quién dais créditos no crees banco Santander? Al cliente o quien suplanta su identidad?»"
+      }
+    ]
   },
   "YouTube": {
     "filas": [
-      { "banco": "CaixaBank", "total": 40, "negativo": "30 %", "neutral": "45 %", "positivo": "25 %", "neto": -5 },
-      { "banco": "BBVA", "total": 30, "negativo": "33 %", "neutral": "47 %", "positivo": "20 %", "neto": -13 },
-      { "banco": "Santander", "total": 30, "negativo": "37 %", "neutral": "43 %", "positivo": "20 %", "neto": -17 }
+      {
+        "banco": "CaixaBank",
+        "total": 4,
+        "negativo": "25 %",
+        "neutral": "75 %",
+        "positivo": "0 %",
+        "neto": -25
+      },
+      {
+        "banco": "BBVA",
+        "total": 69,
+        "negativo": "9 %",
+        "neutral": "74 %",
+        "positivo": "17 %",
+        "neto": 9
+      },
+      {
+        "banco": "Santander",
+        "total": 83,
+        "negativo": "30 %",
+        "neutral": "64 %",
+        "positivo": "6 %",
+        "neto": -24
+      }
     ],
-    "ejemplo_comentario": {
-      "banco": "CaixaBank",
-      "red": "YouTube",
-      "sentimiento": "Neutral",
-      "texto": "«Buen tutorial explicando paso a paso cómo configurar Bizum y las transferencias inmediatas desde el móvil.»"
-    }
+    "comentarios": [
+      {
+        "banco": "BBVA",
+        "red": "YouTube",
+        "sentimiento": "Negativo",
+        "texto": "«Falso, bbva cobra 160 euros anuales de comisiones por mantenimiento de cuenta. Estos dos bancos son el peor sitio donde puedes tener tu dinero.»"
+      },
+      {
+        "banco": "Santander",
+        "red": "YouTube",
+        "sentimiento": "Neutral",
+        "texto": "«Todo normal, cuando trabajes te lo harán sin problema. Aún siendo ciudadano europeo no se la abrieron a mi pareja hasta que no tuvo nómina.»"
+      }
+    ]
   }
 };
+
+// Sentimiento neto de cada banco por categoría (para categorias.html)
+const datosCategorias = [
+  {"nombre": "Atención al cliente", "caixa": 17, "bbva": -44, "santander": -15},
+  {"nombre": "Cuentas y comisiones", "caixa": -48, "bbva": -41, "santander": -56},
+  {"nombre": "App y pagos", "caixa": 25, "bbva": -29, "santander": -66},
+  {"nombre": "Préstamos e hipotecas", "caixa": -41, "bbva": -63, "santander": -38},
+  {"nombre": "Tarjetas", "caixa": -14, "bbva": -38, "santander": -47},
+  {"nombre": "Fraude y seguridad", "caixa": -29, "bbva": -65, "santander": -31},
+  {"nombre": "Ahorro e inversión", "caixa": -33, "bbva": -52, "santander": -92},
+  {"nombre": "Imagen de marca", "caixa": -30, "bbva": 5, "santander": -21}
+];

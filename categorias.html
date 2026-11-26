@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Voxa · Sentimiento por categorías</title>
+    <link rel="stylesheet" href="voxa_azul.css">
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- CABECERA AZUL CORPORATIVA VOXA -->
+    <header>
+        <h1>Voxa</h1>
+        <h2>La voz del cliente, en datos.</h2>
+        <p class="subtitulo-voxa">Plataforma de inteligencia de clientes · Sentimiento comparado en banca</p>
+    </header>
+
+    <!-- MENÚ PARA MOVERSE ENTRE LAS PÁGINAS -->
+    <p>
+        <a class="boton" href="index.html">🏠 Inicio</a>
+        <a class="boton" href="voxa_panel.html">← Ver por plataforma</a>
+    </p>
+
+    <!-- TABLA POR CATEGORÍAS -->
+    <div class="explanation">
+        <h3>Sentimiento neto por categoría</h3>
+        <p>¿En qué temas destaca cada banco? Cada número es el sentimiento neto (de -100 a +100) de las menciones sobre ese tema.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>CaixaBank</th>
+                    <th>BBVA</th>
+                    <th>Santander</th>
+                    <th>Mejor banco</th>
+                </tr>
+            </thead>
+            <tbody id="cuerpo-categorias">
+                <tr>
+                    <td colspan="5">Cargando datos...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        Voxa Analytics · Inteligencia de Clientes B2B · Datos anonimizados bajo RGPD
+    </footer>
+
+</div>
+
+<!-- LECTURA DEL ARCHIVO DE DATOS (trae la lista datosCategorias) -->
+<script src="datos_voxa.js"></script>
+
+<script>
+    // Los datos vienen de datos_voxa.js: un objeto por categoría con el sentimiento neto de cada banco
+    const categorias = datosCategorias;
+
+    // Semáforo (la misma idea que en el panel)
+    function clasificar(neto) {
+        if (neto > 0) {
+            return '🟢';
+        } else if (neto >= -20) {
+            return '🟡';
+        } else {
+            return '🔴';
+        }
+    }
+
+    // Devuelve el nombre del banco con el número más alto
+    function mejorBanco(cat) {
+        if (cat.caixa >= cat.bbva && cat.caixa >= cat.santander) {
+            return 'CaixaBank';
+        } else if (cat.bbva >= cat.santander) {
+            return 'BBVA';
+        } else {
+            return 'Santander';
+        }
+    }
+
+    // Construimos la tabla recorriendo el array con forEach
+    let html = '';
+    categorias.forEach(function(cat) {
+        html += '<tr>' +
+            '<td><b>' + cat.nombre + '</b></td>' +
+            '<td>' + clasificar(cat.caixa) + ' ' + cat.caixa + '</td>' +
+            '<td>' + clasificar(cat.bbva) + ' ' + cat.bbva + '</td>' +
+            '<td>' + clasificar(cat.santander) + ' ' + cat.santander + '</td>' +
+            '<td><b>🏆 ' + mejorBanco(cat) + '</b></td>' +
+        '</tr>';
+    });
+
+    document.getElementById('cuerpo-categorias').innerHTML = html;
+</script>
+
+</body>
+</html>
