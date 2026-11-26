@@ -17,15 +17,11 @@
         <p class="subtitulo-voxa">Plataforma de inteligencia de clientes · Sentimiento comparado en banca</p>
     </header>
 
-    <!-- EXPLICACIÓN -->
-    <div class="summary">
-        <p>
-            Comparativa del reparto de sentimiento entre <b>CaixaBank</b>, <b>BBVA</b> y <b>Santander</b> a partir de opiniones públicas anonimizadas en redes sociales y portales de reseñas.
-        </p>
-        <p>
-            El <b>Sentimiento neto</b> se calcula restando el porcentaje de menciones negativas al porcentaje de menciones positivas (escala de -100 a +100).
-        </p>
-    </div>
+    <!-- MENÚ PARA MOVERSE ENTRE LAS PÁGINAS -->
+    <p>
+        <a class="boton" href="index.html">🏠 Inicio</a>
+        <a class="boton" href="categorias.html">Ver por categorías →</a>
+    </p>
 
     <!-- FILTRO Y BOTONES -->
     <div class="preamble">
@@ -44,7 +40,6 @@
             </select>
 
             <button type="button" id="btn-ganador">Resaltar banco ganador</button>
-            <button type="button" id="btn-comentario">Ver ejemplo de comentario real</button>
         </p>
     </div>
 
@@ -58,25 +53,29 @@
                 <tr>
                     <th>Banco</th>
                     <th>Menciones</th>
+                    <th>% del total</th>
                     <th>Negativo</th>
                     <th>Neutral</th>
                     <th>Positivo</th>
                     <th>Sentimiento neto</th>
+                    <th>Valoración</th>
                 </tr>
             </thead>
             <tbody id="cuerpo-tabla">
                 <tr>
-                    <td colspan="6">Cargando datos...</td>
+                    <td colspan="8">Cargando datos...</td>
                 </tr>
             </tbody>
         </table>
+
+        <!-- NUEVO: aquí se escribe el total de menciones -->
+        <p id="total-menciones"></p>
     </div>
 
-    <!-- TARJETA DESPLEGABLE DE COMENTARIO REAL (OCULTA POR DEFECTO) -->
-    <div class="participation" id="caja-comentario" hidden>
-        <h3>Ejemplo de comentario real anonimizado</h3>
-        <p id="meta-comentario"><b>Banco / Red:</b> —</p>
-        <p id="texto-comentario"><i>«—»</i></p>
+    <!-- EJEMPLOS DE COMENTARIOS REALES (SIEMPRE VISIBLES, SOLO HAY QUE BAJAR) -->
+    <div class="participation">
+        <h3>Lo que dicen los clientes · Ejemplos de comentarios reales anonimizados</h3>
+        <div id="lista-comentarios"></div>
     </div>
 
     <!-- PIE DE PÁGINA SEPARADO -->
@@ -93,6 +92,34 @@
     let redActual = 'todas';
     let ganadorResaltado = false;
 
+    // ===== FUNCIÓN KEVIN (función 1) =====
+    // Semáforo. Recibe el sentimiento neto y devuelve un texto según su valor.
+    function clasificar(neto) {
+        if (neto > 0) {
+            return '🟢 Bueno';
+        } else if (neto >= -20) {
+            return '🟡 Regular';
+        } else {
+            return '🔴 Crítico';
+        }
+    }
+
+    // ===== FUNCIÓN NATALIA (función 2) =====
+    // Suma las menciones de todos los bancos con forEach
+    function sumarMenciones(filas) {
+        let suma = 0;
+        filas.forEach(function(item) {
+            suma = suma + item.total;
+        });
+        return suma;
+    }
+
+    // ===== FUNCIÓN GONZALO (función 3) =====
+    // Calcula qué porcentaje es una parte respecto al total
+    function calcularPorcentaje(parte, total) {
+        return Math.round(parte / total * 100);
+    }
+
     function pintarTabla() {
         const filas = datosGlobales[redActual].filas;
         const tbody = document.getElementById('cuerpo-tabla');
@@ -105,6 +132,9 @@
             }
         });
 
+        // Usamos la FUNCIÓN NATALIA para saber cuántas menciones hay en total
+        const totalMenciones = sumarMenciones(filas);
+
         let html = '';
         filas.forEach(function(item) {
             const esGanador = (item.neto === mejorNota);
@@ -114,30 +144,48 @@
             html += '<tr' + claseFila + '>' +
                 '<td><b>' + item.banco + etiquetaLider + '</b></td>' +
                 '<td>' + item.total + '</td>' +
+                '<td>' + calcularPorcentaje(item.total, totalMenciones) + ' %</td>' +
                 '<td>' + item.negativo + '</td>' +
                 '<td>' + item.neutral + '</td>' +
                 '<td>' + item.positivo + '</td>' +
                 '<td><b>' + (item.neto > 0 ? '+' + item.neto : item.neto) + '</b></td>' +
+                '<td>' + clasificar(item.neto) + '</td>' +
             '</tr>';
+
+            // NUEVO: mostramos cada banco en la consola del navegador (F12 → Console)
+            console.log(item.banco + ': ' + item.neto + ' → ' + clasificar(item.neto));
         });
 
         tbody.innerHTML = html;
 
-        // Actualizar el ejemplo de comentario real de esa red
-        const ejemplo = datosGlobales[redActual].ejemplo_comentario;
-        document.getElementById('meta-comentario').innerHTML = 
-            '<b>Banco:</b> ' + ejemplo.banco + ' | <b>Fuente:</b> ' + ejemplo.red + ' | <b>Sentimiento:</b> ' + ejemplo.sentimiento;
-        document.getElementById('texto-comentario').innerHTML = '<i>' + ejemplo.texto + '</i>';
+        // Escribimos el total debajo de la tabla
+        document.getElementById('total-menciones').innerHTML = '<b>Total de menciones:</b> ' + totalMenciones;
     }
 
-    // Cargar tabla inicial
+    // NUEVO: muestra los comentarios de la red elegida en el filtro.
+    // Recorremos la lista de comentarios con forEach (como en la práctica).
+    function pintarComentarios() {
+        const comentarios = datosGlobales[redActual].comentarios;
+        let html = '';
+
+        comentarios.forEach(function(c) {
+            html += '<p><b>' + c.banco + '</b> · ' + c.red + ' · ' + c.sentimiento + '<br>' +
+                    '<i>' + c.texto + '</i></p>';
+        });
+
+        document.getElementById('lista-comentarios').innerHTML = html;
+    }
+
+    // Cargar tabla y comentarios al abrir la página
     pintarTabla();
+    pintarComentarios();
 
     // Evento al cambiar de red social
     document.getElementById('selector-red').addEventListener('change', function(e) {
         redActual = e.target.value;
         document.getElementById('etiqueta-fuente').textContent = e.target.options[e.target.selectedIndex].text;
         pintarTabla();
+        pintarComentarios();   // NUEVO: los comentarios también cambian con el filtro
     });
 
     // Botón 1: Resaltar ganador
@@ -145,13 +193,6 @@
         ganadorResaltado = !ganadorResaltado;
         this.textContent = ganadorResaltado ? 'Quitar resaltado de ganador' : 'Resaltar banco ganador';
         pintarTabla();
-    });
-
-    // Botón 2: Ver/Ocultar ejemplo de comentario real
-    document.getElementById('btn-comentario').addEventListener('click', function() {
-        const caja = document.getElementById('caja-comentario');
-        caja.hidden = !caja.hidden;
-        this.textContent = caja.hidden ? 'Ver ejemplo de comentario real' : 'Ocultar ejemplo de comentario';
     });
 </script>
 
