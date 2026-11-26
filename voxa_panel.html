@@ -23,9 +23,9 @@
         <a class="boton" href="categorias.html">Ver por categorías →</a>
     </p>
 
-    <!-- FILTRO Y BOTONES -->
+    <!-- FILTRO POR PLATAFORMA -->
     <div class="preamble">
-        <h3>Filtro por plataforma y controles</h3>
+        <h3>Filtro por plataforma</h3>
         <p>
             <label for="selector-red"><b>Selecciona la red social o portal:</b></label><br>
             <select id="selector-red">
@@ -38,8 +38,6 @@
                 <option value="Facebook">Facebook</option>
                 <option value="YouTube">YouTube</option>
             </select>
-
-            <button type="button" id="btn-ganador">Resaltar banco ganador</button>
         </p>
     </div>
 
@@ -90,7 +88,6 @@
 
 <script>
     let redActual = 'todas';
-    let ganadorResaltado = false;
 
     // Semáforo. Recibe el sentimiento neto y devuelve un texto según su valor.
     function clasificar(neto) {
@@ -121,25 +118,13 @@
         const filas = datosGlobales[redActual].filas;
         const tbody = document.getElementById('cuerpo-tabla');
 
-        // Buscar la mejor puntuación neta en la red seleccionada
-        let mejorNota = -999;
-        filas.forEach(function(item) {
-            if (item.neto > mejorNota) {
-                mejorNota = item.neto;
-            }
-        });
-
         // Usamos sumarMenciones para saber cuántas menciones hay en total
         const totalMenciones = sumarMenciones(filas);
 
         let html = '';
         filas.forEach(function(item) {
-            const esGanador = (item.neto === mejorNota);
-            const claseFila = (ganadorResaltado && esGanador) ? ' class="fila-ganadora"' : '';
-            const etiquetaLider = (ganadorResaltado && esGanador) ? ' ★ LÍDER' : '';
-
-            html += '<tr' + claseFila + '>' +
-                '<td><b>' + item.banco + etiquetaLider + '</b></td>' +
+            html += '<tr>' +
+                '<td><b>' + item.banco + '</b></td>' +
                 '<td>' + item.total + '</td>' +
                 '<td>' + calcularPorcentaje(item.total, totalMenciones) + ' %</td>' +
                 '<td>' + item.negativo + '</td>' +
@@ -183,13 +168,6 @@
         document.getElementById('etiqueta-fuente').textContent = e.target.options[e.target.selectedIndex].text;
         pintarTabla();
         pintarComentarios();   // NUEVO: los comentarios también cambian con el filtro
-    });
-
-    // Botón 1: Resaltar ganador
-    document.getElementById('btn-ganador').addEventListener('click', function() {
-        ganadorResaltado = !ganadorResaltado;
-        this.textContent = ganadorResaltado ? 'Quitar resaltado de ganador' : 'Resaltar banco ganador';
-        pintarTabla();
     });
 </script>
 

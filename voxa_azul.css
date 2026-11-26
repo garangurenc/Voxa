@@ -148,11 +148,6 @@ td {
   color: #1e293b;
 }
 
-/* FILA GANADORA RESALTADA EN AZUL SUAVE */
-tr.fila-ganadora {
-  background-color: #dbeafe;
-}
-
 /* FRANJA DE COMENTARIO REAL (ANTES ERA VERDE, AHORA AZUL SUAVE Y CON MARGEN) */
 div.participation {
   width: 82%;
