@@ -66,15 +66,15 @@
             </tbody>
         </table>
 
-        <!-- NUEVO: aquí se escribe el total de menciones -->
         <p id="total-menciones"></p>
     </div>
 
-    <!-- EJEMPLOS DE COMENTARIOS REALES (SIEMPRE VISIBLES, SOLO HAY QUE BAJAR) -->
-    <div class="participation">
-        <h3>Lo que dicen los clientes · Ejemplos de comentarios reales anonimizados</h3>
-        <div id="lista-comentarios"></div>
-    </div>
+    <!-- SECCIÓN DE COMENTARIOS ANALIZADOS (VISIBLE DEBAJO DE LA TABLA AL DESLIZAR) -->
+    <section class="comentarios-section" id="caja-comentario">
+        <h3>Comentarios analizados</h3>
+        <p class="comentarios-intro">Muestras reales anonimizadas correspondientes a la vista seleccionada:</p>
+        <div id="lista-comentarios" class="lista-comentarios"></div>
+    </section>
 
     <!-- PIE DE PÁGINA SEPARADO -->
     <footer>
@@ -117,8 +117,6 @@
     function pintarTabla() {
         const filas = datosGlobales[redActual].filas;
         const tbody = document.getElementById('cuerpo-tabla');
-
-        // Usamos sumarMenciones para saber cuántas menciones hay en total
         const totalMenciones = sumarMenciones(filas);
 
         let html = '';
@@ -134,40 +132,92 @@
                 '<td>' + clasificar(item.neto) + '</td>' +
             '</tr>';
 
-            // NUEVO: mostramos cada banco en la consola del navegador (F12 → Console)
+            // Mostramos cada banco en la consola del navegador (F12 → Console)
             console.log(item.banco + ': ' + item.neto + ' → ' + clasificar(item.neto));
         });
 
         tbody.innerHTML = html;
-
-        // Escribimos el total debajo de la tabla
         document.getElementById('total-menciones').innerHTML = '<b>Total de menciones:</b> ' + totalMenciones;
+
+        // Actualizar los comentarios analizados visibles debajo de la tabla
+        pintarComentarios();
     }
 
-    // NUEVO: muestra los comentarios de la red elegida en el filtro.
-    // Recorremos la lista de comentarios con forEach (como en la práctica).
-    function pintarComentarios() {
-        const comentarios = datosGlobales[redActual].comentarios;
-        let html = '';
+    function obtenerComentarios(red) {
+        if (red === 'todas' && datosGlobales.todas && Array.isArray(datosGlobales.todas.comentarios)) {
+            return datosGlobales.todas.comentarios;
+        }
 
-        comentarios.forEach(function(c) {
-            html += '<p><b>' + c.banco + '</b> · ' + c.red + ' · ' + c.sentimiento + '<br>' +
-                    '<i>' + c.texto + '</i></p>';
+        const claves = (red === 'todas') ? Object.keys(datosGlobales) : [red];
+        const resultado = [];
+
+        claves.forEach(function(clave) {
+            const bloque = datosGlobales[clave];
+            if (!bloque) return;
+
+            if (Array.isArray(bloque.comentarios)) {
+                bloque.comentarios.forEach(function(c) {
+                    resultado.push(c);
+                });
+            } else if (bloque.ejemplo_comentario) {
+                resultado.push(bloque.ejemplo_comentario);
+            }
         });
 
-        document.getElementById('lista-comentarios').innerHTML = html;
+        return resultado;
     }
 
-    // Cargar tabla y comentarios al abrir la página
+    function claseSentimiento(sentimiento) {
+        const s = (sentimiento || '').toLowerCase();
+        if (s === 'positivo') return 'badge-positivo';
+        if (s === 'neutral') return 'badge-neutral';
+        return 'badge-negativo';
+    }
+
+    function pintarComentarios() {
+        const contenedor = document.getElementById('lista-comentarios');
+        const comentarios = obtenerComentarios(redActual);
+        contenedor.innerHTML = '';
+
+        comentarios.forEach(function(comentario) {
+            const tarjeta = document.createElement('article');
+            tarjeta.className = 'comentario-card';
+
+            const cabecera = document.createElement('div');
+            cabecera.className = 'comentario-meta';
+
+            const info = document.createElement('span');
+            info.className = 'comentario-origen';
+            const bancoEl = document.createElement('b');
+            bancoEl.textContent = comentario.banco;
+            info.appendChild(bancoEl);
+            info.appendChild(document.createTextNode(' · ' + comentario.red));
+
+            const badge = document.createElement('span');
+            badge.className = 'comentario-badge ' + claseSentimiento(comentario.sentimiento);
+            badge.textContent = comentario.sentimiento;
+
+            cabecera.appendChild(info);
+            cabecera.appendChild(badge);
+
+            const texto = document.createElement('p');
+            texto.className = 'comentario-texto';
+            texto.textContent = comentario.texto;
+
+            tarjeta.appendChild(cabecera);
+            tarjeta.appendChild(texto);
+            contenedor.appendChild(tarjeta);
+        });
+    }
+
+    // Cargar tabla inicial
     pintarTabla();
-    pintarComentarios();
 
     // Evento al cambiar de red social
     document.getElementById('selector-red').addEventListener('change', function(e) {
         redActual = e.target.value;
         document.getElementById('etiqueta-fuente').textContent = e.target.options[e.target.selectedIndex].text;
         pintarTabla();
-        pintarComentarios();   // NUEVO: los comentarios también cambian con el filtro
     });
 </script>
 
